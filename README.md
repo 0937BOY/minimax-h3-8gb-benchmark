@@ -1,5 +1,7 @@
 # MiniMax-H3 on 8 GB VRAM — Resolution Benchmark
 
+**English | [简体中文](README.zh-CN.md)**
+
 Measured end-to-end generation times for **MiniMax-H3 Ref2VA** (pruned INT8 + 4-step Turbo LoRA) on an **RTX 3050 8 GB** laptop-class GPU. Three resolution presets, 4–6 runs each, same prompt / same frame count / same step count.
 
 The point: MiniMax-H3's official guidance only covers **480P** and **720P**. This machine cannot reach 720P. Everything in between is undocumented — these numbers fill that gap.
@@ -186,21 +188,9 @@ If you run this on other hardware, a PR adding your row to `data/benchmark.csv` 
 
 ---
 
-## 中文摘要
+## 中文版
 
-在 RTX 3050 8 GB 上实测 MiniMax-H3 Ref2VA（pruned INT8 + 4 步 Turbo LoRA）三档分辨率的端到端出片耗时，每档 4–6 条，统一 158 帧 / 24fps / 6.583 秒 / 6 步采样：
-
-| 档位 | 分辨率 | 平均总耗时 | 平均采样 | 秒/步 |
-|---|---|---|---|---|
-| 0.5 MP | 960×544 | 326.3 s | 287.0 s | 47.88 |
-| 0.6 MP | 1056×608 | 418.9 s | 371.2 s | 61.97 |
-| 0.7 MP | 1152×640 | 510.6 s | 456.8 s | 76.21 |
-
-三个结论：**① 显存峰值与分辨率无关**（三档均为 7864–7868 MiB，峰值出现在 VAE 解码阶段），0.7 MP 不会 OOM，真正的瓶颈是时间；**② 0.7 MP 连跑第 6 条会严重退化**（采样 456 s → 1018 s），根因是主机内存耗尽触发换页，建议每 4–5 条重启 ComfyUI；**③ 改分辨率要额外付约 50 秒的模型重新 staging**，同分辨率连跑只需 0.3 秒。
-
-模型全部来自 Comfy-Org 官方 repack（`Comfy-Org/MiniMax-H3`），Turbo LoRA 来自 `lightx2v/Minimax-h3-Turbo`。本仓库不包含任何权重文件。
-
-**关于换卡**：3050 8GB 是能跑 H3 的下限档位，主要瓶颈是 224 GB/s 的显存带宽而非容量。换 40/50 系同时带来「更快」和「能开更高档」两件事，其中 **8GB → 16GB 是门槛级差异**（0.7MP/6 步 → 0.98MP/20 步），而同容量档内主要是线性提速。README 英文部分给了带宽倍数参考表和自测方法，但那部分是量级估算，不是实测——**建议按同样流程在自己的卡上跑一遍再对比**，两个关键比值是「每百万像素秒数」（本机 625/652/693）和「显存峰值是否随分辨率变化」（本机不变）。
+完整中文文档见 **[README.zh-CN.md](README.zh-CN.md)** —— 内容与本文逐节对应，包含全部表格、复现步骤、自测方法与局限说明，不是机器翻译的摘要。
 
 ---
 
