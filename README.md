@@ -101,7 +101,7 @@ Notes on the specific files:
 1. Install ComfyUI ≥ 0.30.0 (H3 native support landed there; 0.44.0 used here) with PyTorch built against **cu130**.
 2. Place the five files above into the folders listed.
 3. Load `workflow/minimax_h3_ref2v_8gb.json`.
-4. Put your own image into `ComfyUI/input/` and name it `example.png` — the workflow has a single `LoadImage` node pointing at that filename.
+4. Put your own image into `ComfyUI/input/` and name it `example.png` — the workflow has a single `LoadImage` node pointing at that filename. A placeholder ships in `assets/example.png`; copy it there if you just want to see the graph run.
 5. Set the seed, press Run.
 
 The workflow is deliberately a **minimal, ungrouped, single-reference build**: 23 nodes, 28 links, straight-line layout, no parameter bus, no group bypasser. It is the same compute graph that produced the numbers above, stripped of the author's panel layout. If you want six reference images, add five more `LoadImage` nodes and wire them to `ref_image_1` … `ref_image_5` on the `MiniMaxH3ReferenceToVideo` node — those inputs exist but are left unconnected here.
@@ -134,6 +134,48 @@ The measurement script is in [`tools/monitor.py`](tools/monitor.py). Raw per-run
 
 ---
 
+## Scaling beyond this card
+
+The RTX 3050 8 GB is close to the **bottom edge** of what runs H3 at all. It is an entry-level Ampere part: 2560 CUDA cores, 8 GB of GDDR6 on a 128-bit bus, **224 GB/s**. That bandwidth, not the 8 GB capacity, is what sets the pace here — 625–693 seconds per megapixel is simply what this tier costs.
+
+Moving to a 40- or 50-series card buys two independent things:
+
+1. **Speed** — bandwidth and compute scale roughly together on this workload.
+2. **Ceiling** — more VRAM means higher presets, more steps, and eventually dropping the low-VRAM patches (`MiniMaxLowVRAMAttention`, `MiniMaxChunkFeedForward`) that this 8 GB run depends on.
+
+### Order-of-magnitude reference
+
+> These are **bandwidth-ratio estimates, not measurements**. Real speedups come in below the bandwidth multiple, because attention and sampler overhead do not scale with it. Treat the VRAM column as the reliable part.
+
+| GPU | VRAM | Bandwidth | vs 3050 | Practical preset range |
+|---|---|---|---|---|
+| RTX 3050 8 GB *(this run)* | 8 GB | 224 GB/s | 1.0× | 0.5 – 0.7 MP, 6 steps |
+| RTX 4060 Ti 16 GB | 16 GB | 288 GB/s | 1.3× | up to ~0.98 MP |
+| RTX 5070 | 12 GB | 672 GB/s | 3.0× | up to ~0.98 MP |
+| RTX 4070 Ti Super | 16 GB | 672 GB/s | 3.0× | ~0.98 MP, higher step count |
+| RTX 5070 Ti | 16 GB | 896 GB/s | 4.0× | ~0.98 MP, 20-step quality mode |
+| RTX 5090 | 32 GB | 1792 GB/s | 8.0× | full 1344×768, no low-VRAM patches |
+
+The 8 GB → 16 GB jump is a **threshold**, not a slope: it is the difference between 0.7 MP at 6 steps and 0.98 MP at 20 steps. Below 16 GB you are mostly buying linear speed; at 16 GB and above you unlock presets this card cannot address at all.
+
+### Benchmark your own card
+
+The script in `tools/monitor.py` is hardware-agnostic. To produce a row comparable to the table at the top:
+
+1. Use the same workflow, same prompt, same 158 frames, same step count.
+2. Sweep `megapixels` across the presets your card can actually finish. **Skip the first run of each preset** — it pays a ~50 s model-staging cost that same-preset runs do not.
+3. Run at least 3–4 per preset. Discard cache hits (they finish in under a second) and any run that re-staged `MiniMaxH3TEModel`.
+4. Record total time from `Prompt executed in X seconds`, sampling time from the final tqdm line, VRAM peak from `nvidia-smi`.
+
+Two ratios are what make results comparable across cards:
+
+- **seconds per megapixel** — 625 / 652 / 693 here. Compare yours against this.
+- **whether VRAM peak moves with resolution** — here it does not (7864–7868 MiB across all three presets), which is unusual and worth confirming on your hardware.
+
+If you run this on other hardware, a PR adding your row to `data/benchmark.csv` is welcome.
+
+---
+
 ## Caveats
 
 - **n is 4–6 per preset, single machine, single session.** No confidence intervals. Run-to-run spread was ±1–4% within a preset, except the outlier noted above (which was 120%).
@@ -157,6 +199,8 @@ The measurement script is in [`tools/monitor.py`](tools/monitor.py). Raw per-run
 三个结论：**① 显存峰值与分辨率无关**（三档均为 7864–7868 MiB，峰值出现在 VAE 解码阶段），0.7 MP 不会 OOM，真正的瓶颈是时间；**② 0.7 MP 连跑第 6 条会严重退化**（采样 456 s → 1018 s），根因是主机内存耗尽触发换页，建议每 4–5 条重启 ComfyUI；**③ 改分辨率要额外付约 50 秒的模型重新 staging**，同分辨率连跑只需 0.3 秒。
 
 模型全部来自 Comfy-Org 官方 repack（`Comfy-Org/MiniMax-H3`），Turbo LoRA 来自 `lightx2v/Minimax-h3-Turbo`。本仓库不包含任何权重文件。
+
+**关于换卡**：3050 8GB 是能跑 H3 的下限档位，主要瓶颈是 224 GB/s 的显存带宽而非容量。换 40/50 系同时带来「更快」和「能开更高档」两件事，其中 **8GB → 16GB 是门槛级差异**（0.7MP/6 步 → 0.98MP/20 步），而同容量档内主要是线性提速。README 英文部分给了带宽倍数参考表和自测方法，但那部分是量级估算，不是实测——**建议按同样流程在自己的卡上跑一遍再对比**，两个关键比值是「每百万像素秒数」（本机 625/652/693）和「显存峰值是否随分辨率变化」（本机不变）。
 
 ---
 
