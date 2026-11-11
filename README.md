@@ -2,6 +2,8 @@
 
 **English | [简体中文](README.zh-CN.md)**
 
+> **License: free for personal study and non-commercial use only. Commercial use is not permitted.** See [LICENSE](LICENSE).
+
 Measured end-to-end generation times for **MiniMax-H3 Ref2VA** (pruned INT8 + 4-step Turbo LoRA) on an **RTX 3050 8 GB** laptop-class GPU. Three resolution presets, 4–6 runs each, same prompt / same frame count / same step count.
 
 The point: MiniMax-H3's official guidance only covers **480P** and **720P**. This machine cannot reach 720P. Everything in between is undocumented — these numbers fill that gap.
@@ -67,7 +69,7 @@ That is why the first run of each preset is excluded from the table above. Once 
 | OS | Windows 11 Pro for Workstations, 22631 |
 | ComfyUI | 0.44.0 |
 | Python / PyTorch | 3.13.3 / 2.11.0+cu130 |
-| Pagefile | 64 GB, fixed, on a separate SATA SSD |
+| Pagefile | 64 GB, fixed, on a second partition of the same SATA SSD |
 
 **Custom node pack required: [`ComfyUI-KJNodes`](https://github.com/kijai/ComfyUI-KJNodes).**
 
@@ -99,6 +101,10 @@ Notes on the specific files:
 ---
 
 ## Reproducing
+
+> **Full deployment guide: [DEPLOY.md](DEPLOY.md)** — pagefile configuration, required custom nodes, model download mirrors, every launch flag explained, and a troubleshooting table.
+>
+> It is split into two tracks: **minimum viable** (guaranteed to run, only KJNodes required) and **acceleration** (comfy-kitchen / `--use-ck-attention`, optional, no guarantee it helps on your card). The timings in this README were measured **with acceleration on**, so a track-A setup will be slower. The steps below are the short path only.
 
 1. Install ComfyUI ≥ 0.30.0 (H3 native support landed there; 0.44.0 used here) with PyTorch built against **cu130**.
 2. Place the five files above into the folders listed.
@@ -196,7 +202,12 @@ If you run this on other hardware, a PR adding your row to `data/benchmark.csv` 
 
 ## License
 
-- Text, tables and measurement data: **CC BY 4.0**
-- `tools/monitor.py` and the workflow JSON: **MIT**
+**[Non-Commercial Personal-Study License v1.0](LICENSE)** — applies to the whole repository: documentation, measurement data, workflow, script and placeholder image.
+
+**You may** read it, copy it, modify it, share it, and use it for personal study, self-learning, research, teaching, or any non-commercial experiment on your own hardware. Attribution plus a link back to this repository is required, and modifications must be stated.
+
+**You may not** use it commercially: no selling, no bundling into a paid product/service/course/plugin/API, no internal production use inside a for-profit entity, no paid outsourcing or support built on it, no commercial benchmark or hardware marketing claims derived from the data.
+
+> Because of that restriction this is **not** an OSI-approved open source license. The accurate label is **source-available, non-commercial**: the code is fully readable and modifiable, only commercial exploitation is withheld. For commercial licensing, open an issue.
 
 Model weights are governed by the [MiniMax-H3 Community License Agreement](https://huggingface.co/MiniMaxAI/MiniMax-H3) and are not distributed here.

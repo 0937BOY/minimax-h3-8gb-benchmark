@@ -1,32 +1,141 @@
-MIT License
+Non-Commercial Personal-Study License v1.0
+非商业个人学习许可 v1.0
 
-Copyright (c) 2026 minimax-h3-8gb-benchmark contributors
+Copyright (c) 2026 0937 (github.com/0937BOY). All rights reserved except as
+expressly granted below.
+版权所有 (c) 2026 0937。除下方明确授予的权利外，保留所有权利。
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+================================================================================
+1. SCOPE / 适用范围
+================================================================================
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+This license covers every file in this repository: documentation (README.md,
+README.zh-CN.md, DEPLOY.md, DEPLOY.zh-CN.md), measurement data
+(data/benchmark.csv), the ComfyUI workflow (workflow/minimax_h3_ref2v_8gb.json),
+the monitoring script (tools/monitor.py), and the placeholder image
+(assets/example.png).
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+本许可适用于本仓库的全部文件：文档（README.md、README.zh-CN.md、DEPLOY.md、
+DEPLOY.zh-CN.md）、实测数据（data/benchmark.csv）、ComfyUI 工作流
+（workflow/minimax_h3_ref2v_8gb.json）、监控脚本（tools/monitor.py）以及占位图
+（assets/example.png）。
 
----
+Model weights are NOT part of this repository and are NOT covered by this
+license. They remain governed by the MiniMax-H3 Community License Agreement:
+https://huggingface.co/MiniMaxAI/MiniMax-H3
 
-Applies to: tools/monitor.py, workflow/minimax_h3_ref2v_8gb.json
+模型权重不属于本仓库，不在本许可范围内，仍适用 MiniMax-H3 Community License
+Agreement：https://huggingface.co/MiniMaxAI/MiniMax-H3
 
-The benchmark measurements in data/benchmark.csv and the tables in README.md
-are licensed under Creative Commons Attribution 4.0 International (CC BY 4.0):
-https://creativecommons.org/licenses/by/4.0/
+================================================================================
+2. GRANTED / 授予的权利
+================================================================================
 
-Model weights are NOT included in this repository and remain governed by the
-MiniMax-H3 Community License Agreement.
+You MAY, free of charge:
+
+  a) read, download, copy and redistribute this repository in whole or in part;
+  b) use it for personal study, self-learning, academic research, teaching, and
+     any non-commercial experiment on your own hardware;
+  c) modify it and publish your modifications, including forks and derived
+     workflows, provided the conditions in section 3 are met;
+  d) quote the measurement data and tables in non-commercial articles, videos,
+     blog posts or forum answers.
+
+您可免费：
+
+  a) 阅读、下载、复制并整体或部分再分发本仓库；
+  b) 用于个人学习、自学、学术研究、教学，以及在自有硬件上的任何非商业实验；
+  c) 修改并公开你的修改，包括 fork 与衍生工作流，前提是满足第 3 节的条件；
+  d) 在非商业的文章、视频、博客或论坛回答中引用本仓库的实测数据与表格。
+
+================================================================================
+3. CONDITIONS / 使用条件
+================================================================================
+
+Any copy, redistribution or derivative work MUST:
+
+  a) retain this license file and the copyright notice above;
+  b) give clear attribution to the original repository:
+     https://github.com/0937BOY/minimax-h3-8gb-benchmark
+  c) state prominently if you modified the material;
+  d) not remove or alter the non-commercial restriction.
+
+任何复制、再分发或衍生作品必须：
+
+  a) 保留本许可文件与上方版权声明；
+  b) 明确标注原仓库地址：
+     https://github.com/0937BOY/minimax-h3-8gb-benchmark
+  c) 若你修改了内容，须显著说明；
+  d) 不得移除或修改「禁止商业使用」这一限制。
+
+================================================================================
+4. PROHIBITED / 禁止的用途
+================================================================================
+
+Commercial use is NOT permitted. Without a separate written permission from the
+copyright holder, you may NOT:
+
+  a) sell this repository, its scripts, workflow or data, or any derivative of
+     them, in any form;
+  b) bundle them into a paid product, paid service, paid course, paid plugin,
+     paid cloud API, or any offering where payment is required for access;
+  c) use them in the internal production workflow of a for-profit entity, or in
+     any activity whose primary purpose is commercial advantage or monetary
+     compensation;
+  d) provide paid services, outsourcing, deployment or technical support whose
+     value derives substantially from this material;
+  e) use the measurement data as the basis of a commercial benchmark report or
+     commercial hardware marketing claim.
+
+不允许商业使用。未取得版权所有者另行书面许可，你不得：
+
+  a) 以任何形式出售本仓库、其脚本、工作流、数据或它们的衍生品；
+  b) 将其打包进付费产品、付费服务、付费课程、付费插件、付费云 API，或任何
+     需要付费才能获取的产品中；
+  c) 用于营利实体的内部生产流程，或任何以商业利益、金钱报酬为主要目的的
+     活动；
+  d) 提供其价值实质来源于本材料的付费服务、外包、部署或技术支持；
+  e) 将本实测数据作为商业基准报告或商业硬件宣传结论的依据。
+
+If you are unsure whether your intended use is commercial, it probably is.
+Ask first: open an issue on the repository.
+
+若你不确定自己的用途是否属于商业用途，通常它就属于。请先在仓库开 issue 询问。
+
+================================================================================
+5. NO WARRANTY / 免责声明
+================================================================================
+
+THE MATERIAL IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHOR BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+MATERIAL OR THE USE OR OTHER DEALINGS IN THE MATERIAL.
+
+The performance figures are single-machine measurements (n=4~6 per preset), not
+vendor benchmarks. They are not a promise of what your hardware will do.
+
+本材料按「现状」提供，不附带任何明示或暗示的担保，包括但不限于适销性、特定
+用途适用性与不侵权的担保。在任何情况下，作者均不对因本材料或本材料的使用或
+其他处置而产生的任何索赔、损害或其他责任承担责任，无论该责任源于合同、侵权
+还是其他方面。
+
+性能数字为单机实测（每档 n=4~6），不是厂商基准，不构成对你硬件表现的承诺。
+
+================================================================================
+6. NOTE ON "OPEN SOURCE" / 关于「开源」的说明
+================================================================================
+
+Because of the non-commercial restriction in section 4, this license is NOT an
+OSI-approved open source license. The accurate description is
+"source-available, non-commercial". The code is fully readable and modifiable;
+only commercial exploitation is withheld.
+
+由于第 4 节的非商业限制，本许可不属于 OSI 认定意义上的开源许可。准确的说法是
+「源码可见、限非商业」。代码完全可读可改，仅保留商业使用的权利。
+
+For commercial licensing, contact the author via a GitHub issue on the
+repository above.
+
+如需商业授权，请通过上方仓库的 GitHub issue 联系作者。
