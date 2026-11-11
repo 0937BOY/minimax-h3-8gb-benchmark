@@ -1,0 +1,38 @@
+# model weights — never commit these, ~40 GB
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.gguf
+*.bin
+
+# generated media
+*.mp4
+*.webm
+*.mov
+*.wav
+*.mp3
+
+# reference images other than the placeholder
+*.jpg
+*.jpeg
+*.png
+!example.png
+
+# monitor output
+*.csv
+!data/benchmark.csv
+*.log
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# os / editor
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
